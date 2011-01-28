@@ -82,17 +82,4 @@ public class TestTest {
 		assertEquals("<span class=\"clazz1 clazz2\">ahrpius devstudio</span>", content);
 	}
 
-	
-	public static void main(String[] args) {
-		InTag input = new InTag(INPUT);
-		
-		input
-			.addParam("type", "text")
-			.addParam("name", "meuInput")
-			.addParam("value", "509");
-		
-		String content = input.toString();
-		
-		System.out.println(content);
-	}
 }
