@@ -1,3 +1,4 @@
+
 package br.com.ahrpius.intag.nameling;
 
 public interface Name {
@@ -12,5 +13,7 @@ public interface Name {
 	public final String FIELDSET = "fieldset";
 	public final String LEGEND = "legend";
 	public final String SPAN = "span";
+	public final String SELECT = "select";
+	public final String OPTION = "option";
 
 }
