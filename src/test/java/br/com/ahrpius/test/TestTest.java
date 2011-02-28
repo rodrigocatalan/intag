@@ -81,5 +81,37 @@ public class TestTest {
 		
 		assertEquals("<span class=\"clazz1 clazz2\">ahrpius devstudio</span>", content);
 	}
+	
+	@Test
+	public void testIndentations(){
+		InTag form = new InTag(FORM);
+		
+		InTag fieldset = form.createTag(FIELDSET);
+		fieldset.createTag(LEGEND).add("legend");
+		
+		InTag select = fieldset.createTag(SELECT);
+		select.createTag(OPTION).add("one");
+		select.createTag(OPTION).add("two");
+		select.createTag(OPTION).add("three");
+		
+		fieldset.createTag(LINE_BREAK).makeSingle();
+		
+		String content = form.toString();
+		
+		final String expected = 
+			"<form>" +
+			"\t<fieldset>" +
+			"\t\t<legend>legend</legend>" +
+			"\t\t<select>" +
+			"\t\t\t<option>one</option>" +
+			"\t\t\t<option>two</option>" +
+			"\t\t\t<option>three</option>" +
+			"\t\t</select>" +
+			"\t\t<br />" +
+			"\t</fieldset>" +
+			"</form>";
+		
+		assertEquals(expected, content);
+	}
 
 }
