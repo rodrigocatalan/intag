@@ -111,7 +111,9 @@ public class InTag {
 		
 		StringBuffer sb = new StringBuffer();
 		sb.append(String.format(MASK_TAG, this.name, params.toString() ));
-		sb.append(WORD_WRAP);
+		if (params.toString().length()>0||this.contentList.size()>0) {
+			sb.append(WORD_WRAP);
+		}
 		for (Object o : this.contentList) {
 			tab++;
 			if (o instanceof InTag){

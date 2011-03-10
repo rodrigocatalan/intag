@@ -27,7 +27,7 @@ public class TestTest {
 			.add("ahrpius devstudio");
 		
 		String result = tag.toString();
-		
+		System.out.println(result);
 		assertEquals(expected, result);
 		
 	}
