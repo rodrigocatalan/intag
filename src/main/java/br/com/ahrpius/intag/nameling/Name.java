@@ -1,4 +1,3 @@
-
 package br.com.ahrpius.intag.nameling;
 
 public interface Name {

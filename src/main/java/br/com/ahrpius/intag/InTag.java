@@ -8,10 +8,9 @@ public class InTag {
 	final String WORD_WRAP = "\n";
 	final String WORD_TAB = "\t";
 	
-	final String MASK_SIMPLE_TAG = "<%s %s/>";
-	final String MASK_COMPOSITE_TAG = "<%s %s>"+"%s</%s>";
+	final String MASK_TAG = "<%s%s>";
+	final String MASK_TAG_CLOSE = "</%s>";
 	final String MASK_PARAMS = "%s=%c%s%c";
-	final String[] END_TAG_REPLACE = {" >", ">"};
 	
 	private final String name;
 	private final Character quote;
@@ -63,6 +62,8 @@ public class InTag {
 		
 		for (String[] param : this.params) {
 			
+			params.append(" ");
+			
 			String values = "";
 			
 			if ( param.length > 2 ) {
@@ -75,22 +76,23 @@ public class InTag {
 				values = param[1];
 			}
 			
-			params.append( String.format(MASK_PARAMS, param[0], quote, values.trim(), quote) + " " );
+			params.append( String.format(MASK_PARAMS, param[0], quote, values.trim(), quote) );
 		}
 		
-		final String TAG = String.format(MASK_SIMPLE_TAG, this.name, params.toString().trim());
+		final String TAG = String.format(MASK_TAG, this.name, params.toString()+"/");
 		
 		return new String(TAG);
 	}
 	
-	private static int tabLevel = 0; //change this
+	private int tab = 0;
 	
 	private String tagfyComposite() {
 		
 		StringBuffer params = new StringBuffer();
 		
-		
 		for (String[] param : this.params) {
+			
+			params.append(" ");
 			
 			String values = "";
 			
@@ -104,33 +106,26 @@ public class InTag {
 				values = param[1];
 			}			
 			
-			params.append( String.format(MASK_PARAMS, param[0], quote, values.trim(), quote).concat(" ") );
+			params.append( String.format(MASK_PARAMS, param[0], quote, values.trim(), quote) );
 		}
 		
-		StringBuffer compositeParams = new StringBuffer();
+		StringBuffer sb = new StringBuffer();
+		sb.append(String.format(MASK_TAG, this.name, params.toString() ));
+		sb.append(WORD_WRAP);
 		for (Object o : this.contentList) {
-			tabLevel++;
+			tab++;
 			if (o instanceof InTag){
-				compositeParams.append(WORD_WRAP);
-				compositeParams.append(tabulate(tabLevel));
+				((InTag) o).tab = tab;
 			}
-			compositeParams.append( o.toString() );
-			tabLevel--;
-			if (o instanceof InTag){
-				compositeParams.append(WORD_WRAP);
-				compositeParams.append(tabulate(tabLevel));
-			}
+			sb.append(tabulate(tab));
+			sb.append(o.toString());
+			sb.append(WORD_WRAP);
+			tab--;
 		}
+		sb.append(tabulate(tab));
+		sb.append(String.format(MASK_TAG_CLOSE, this.name));
 		
-		String index = MASK_COMPOSITE_TAG;
-		
-		String formated = String.format(index, 
-				this.name, 
-				params.toString().trim(), 
-				compositeParams.toString(),
-				this.name);
-
-		return formated.replace(END_TAG_REPLACE[0], END_TAG_REPLACE[1]);
+		return sb.toString();
 	}
 	
 	private String tabulate(int size) {

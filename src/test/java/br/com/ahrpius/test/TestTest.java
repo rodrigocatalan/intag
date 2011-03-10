@@ -10,8 +10,15 @@ import br.com.ahrpius.intag.InTag;
 
 public class TestTest {
 	
+	private final String N =  "\n";
+	
 	@Test
 	public void testTagAnchor() {
+		
+		String expected = 
+			"<a href=\"http://ahrpius.com.br\">" + N +
+			"	ahrpius devstudio" + N +
+			"</a>"; 
 		
 		InTag tag = new InTag(ANCHOR);
 		
@@ -19,10 +26,9 @@ public class TestTest {
 			.addParam("href", "http://ahrpius.com.br")
 			.add("ahrpius devstudio");
 		
+		String result = tag.toString();
 		
-		String content = tag.toString();
-		
-		assertEquals("<a href=\"http://ahrpius.com.br\">ahrpius devstudio</a>", content);
+		assertEquals(expected, result);
 		
 	}
 	
@@ -31,60 +37,80 @@ public class TestTest {
 		
 		InTag tag = new InTag(LINE_BREAK);
 		
-		tag.
-			makeSingle();
+		tag.makeSingle();
 		
-		String content = tag.toString();
-		
-		assertEquals("<br />", content);
+		String result = tag.toString();
+
+		assertEquals("<br/>", result);
 		
 	}
 	
 	@Test
 	public void testOtherQuote() {
 		
-		final String RESULT = "<a href='http://ahrpius.com.br'>ahrpius devstudio</a>";
+		String expected = 
+			"<a href='http://ahrpius.com.br'>" + N +
+			"	ahrpius devstudio" + N +
+			"</a>";
 		
-		InTag tag = new InTag(ANCHOR, '\'');
+		InTag tag = new InTag(ANCHOR, "'");
 		
 		tag
 			.addParam("href", "http://ahrpius.com.br")
 			.add("ahrpius devstudio");
 		
+		String result = tag.toString();
 		
-		String content = tag.toString();
-		
-		assertEquals(RESULT, content);
-		
-		InTag similarTag = new InTag(ANCHOR, "'");
-		
-		similarTag
-			.addParam("href", "http://ahrpius.com.br")
-			.add("ahrpius devstudio");
-		
-		
-		String similarContent = similarTag.toString();
-		
-		assertEquals(RESULT, similarContent);
+		assertEquals(expected, result);
+
 	}
 
 	@Test
 	public void testMultipleParams() {
+		
+		String expected = 
+			"<span class=\"clazz1 clazz2\">" + N +
+			"	ahrpius devstudio" + N +
+			"</span>";
+		
 		InTag tag = new InTag(SPAN);
 		
 		tag
 			.addParam("class", "clazz1", "clazz2")
 			.add("ahrpius devstudio");
 		
+		String result = tag.toString();
 		
-		String content = tag.toString();
-		
-		assertEquals("<span class=\"clazz1 clazz2\">ahrpius devstudio</span>", content);
+		assertEquals(expected, result);
 	}
 	
 	@Test
 	public void testIndentations(){
+		
+		String expected = 
+			"<form action=\"/doSomething\">" + N +
+			"	<fieldset>" + N +
+			"		<legend>" + N +
+			"			legend" + N +
+			"		</legend>" + N +
+			"		<select>" + N +
+			"			<option>" + N +
+			"				one" + N +
+			"			</option>" + N +
+			"			<option>" + N +
+			"				two" + N +
+			"			</option>" + N +
+			"			<option>" + N +
+			"				three" + N +
+			"			</option>" + N +
+			"		</select>" + N +
+			"		<br/>" + N +
+			"	</fieldset>" + N +
+			"</form>";
+		
 		InTag form = new InTag(FORM);
+		
+		form.addParam("action", "/doSomething");
 		
 		InTag fieldset = form.createTag(FIELDSET);
 		fieldset.createTag(LEGEND).add("legend");
@@ -97,19 +123,6 @@ public class TestTest {
 		fieldset.createTag(LINE_BREAK).makeSingle();
 		
 		String content = form.toString();
-		
-		final String expected = 
-			"<form>" +
-			"\t<fieldset>" +
-			"\t\t<legend>legend</legend>" +
-			"\t\t<select>" +
-			"\t\t\t<option>one</option>" +
-			"\t\t\t<option>two</option>" +
-			"\t\t\t<option>three</option>" +
-			"\t\t</select>" +
-			"\t\t<br />" +
-			"\t</fieldset>" +
-			"</form>";
 		
 		assertEquals(expected, content);
 	}
