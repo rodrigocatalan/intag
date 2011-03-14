@@ -1,7 +1,7 @@
 package br.com.ahrpius.intag;
 
 import static br.com.ahrpius.intag.nameling.Name.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
 
