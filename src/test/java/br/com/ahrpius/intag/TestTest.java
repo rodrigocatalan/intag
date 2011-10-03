@@ -1,16 +1,13 @@
 package br.com.ahrpius.intag;
 
-import static br.com.ahrpius.intag.nameling.Name.*;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
-
-import br.com.ahrpius.intag.InTag;
 
 
 public class TestTest {
 	
-	private final String N =  "\n";
+	private final char N =  '\n';
 	
 	@Test
 	public void testTagAnchor() {
@@ -20,7 +17,7 @@ public class TestTest {
 			"	ahrpius devstudio" + N +
 			"</a>"; 
 		
-		InTag tag = new InTag(ANCHOR);
+		InTag tag = new InTag("a");
 		
 		tag
 			.addParam("href", "http://ahrpius.com.br")
@@ -35,7 +32,7 @@ public class TestTest {
 	@Test
 	public void testSingleTagLineBreak() {
 		
-		InTag tag = new InTag(LINE_BREAK);
+		InTag tag = new InTag("br");
 		
 		tag.makeSingle();
 		
@@ -53,7 +50,7 @@ public class TestTest {
 			"	ahrpius devstudio" + N +
 			"</a>";
 		
-		InTag tag = new InTag(ANCHOR, "'");
+		InTag tag = new InTag("a", "'");
 		
 		tag
 			.addParam("href", "http://ahrpius.com.br")
@@ -73,7 +70,7 @@ public class TestTest {
 			"	ahrpius devstudio" + N +
 			"</span>";
 		
-		InTag tag = new InTag(SPAN);
+		InTag tag = new InTag("span");
 		
 		tag
 			.addParam("class", "clazz1", "clazz2")
@@ -108,19 +105,19 @@ public class TestTest {
 			"	</fieldset>" + N +
 			"</form>";
 		
-		InTag form = new InTag(FORM);
+		InTag form = new InTag("form");
 		
 		form.addParam("action", "/doSomething");
 		
-		InTag fieldset = form.createTag(FIELDSET);
-		fieldset.createTag(LEGEND).add("legend");
+		InTag fieldset = form.createTag("fieldset");
+		fieldset.createTag("legend").add("legend");
 		
-		InTag select = fieldset.createTag(SELECT);
-		select.createTag(OPTION).add("one");
-		select.createTag(OPTION).add("two");
-		select.createTag(OPTION).add("three");
+		InTag select = fieldset.createTag("select");
+		select.createTag("option").add("one");
+		select.createTag("option").add("two");
+		select.createTag("option").add("three");
 		
-		fieldset.createTag(LINE_BREAK).makeSingle();
+		fieldset.createTag("br").makeSingle();
 		
 		String content = form.toString();
 		

@@ -5,8 +5,8 @@ import java.util.List;
 
 public class InTag {
 	
-	final String WORD_WRAP = "\n";
-	final String WORD_TAB = "\t";
+	final char WORD_WRAP = '\n';
+	final char WORD_TAB = '\t';
 	
 	final String MASK_TAG = "<%s%s>";
 	final String MASK_TAG_CLOSE = "</%s>";
